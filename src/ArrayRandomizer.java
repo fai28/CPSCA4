@@ -71,6 +71,7 @@ public class ArrayRandomizer {
 
                 // Memory management and garbage collection. Source: https://www.freecodecamp.org/news/garbage-collection-in-java-what-is-gc-and-how-it-works-in-the-jvm/
                 searchArray = null;
+                tempSearchArray = null;
                 System.gc();
             }
 
