@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.Random;
 
 /**
- * This class is used to compare the running time of linear search, binary search, and searching a hash table by generating 
- * random search arrays between size 1,000 and 1,000,000 (with increments of 10,000) and element array of constant size 100. 
- * The program searches the search array for elements found in the element array and records the time in a csv file. 
+ * This class is used to compare the running time of linear search, binary search, and searching a hash table by generating
+ * random search arrays between size 1,000 and 1,000,000 (with increments of 10,000) and element array of constant size 100.
+ * The program searches the search array for elements found in the element array and records the time in a csv file.
  */
 public class ArrayRandomizer {
     // Constants
@@ -34,7 +34,7 @@ public class ArrayRandomizer {
             resultsLinear.write("Size,Time\n");
             resultsBinary.write("Size,Time\n");
 
-            // Create the fixed element array 
+            // Create the fixed element array
             ArrayList<Integer> elementsArray = generateElementsArray();
 
             // Create search arrays starting from INITIAL_SIZE to MAXIMUM_SIZE, with each iteration incrementing by 10,000
@@ -46,7 +46,7 @@ public class ArrayRandomizer {
                 // Timer Start
                 long startTime = System.nanoTime();
 
-                // SEQUENTIAL SEARCH 
+                // SEQUENTIAL SEARCH
                 sequentialSearch(searchArray, elementsArray);
 
                 // Timer end
@@ -59,13 +59,15 @@ public class ArrayRandomizer {
 
                 long endTime2 = System.nanoTime();
 
-                // Calculate total time 
+                // Calculate total time
                 long totalTimeLinear = endTime - startTime;
                 long totalTimeBinary = endTime2 - endTime;
 
                 // Writing results to file
                 resultsLinear.write(n + "," + totalTimeLinear + "\n");
                 resultsBinary.write(n + "," + totalTimeBinary + "\n");
+
+                System.out.println(n + "," + totalTimeLinear + "\n");
 
                 // Memory management and garbage collection. Source: https://www.freecodecamp.org/news/garbage-collection-in-java-what-is-gc-and-how-it-works-in-the-jvm/
                 searchArray = null;
@@ -83,7 +85,7 @@ public class ArrayRandomizer {
     }
 
     /**
-     * Randomly generates a search array of size n (between INITIAL_SIZE (1000) and MAXIMUM_SIZE(1000000)) and the values in the 
+     * Randomly generates a search array of size n (between INITIAL_SIZE (1000) and MAXIMUM_SIZE(1000000)) and the values in the
      * array are from 0 to MAX_VALUE (5000)
      * @param n the size of the search array
      * @return the search array
@@ -104,7 +106,7 @@ public class ArrayRandomizer {
     }
 
     /**
-     * Randomly generates an elements array of size ELEMENTS_SIZE, and the elemnts in the array are distinct integers between 
+     * Randomly generates an elements array of size ELEMENTS_SIZE, and the elemnts in the array are distinct integers between
      * 0 and MAX_VALUE(5000), except for the last element which is set to LAST_VALUE (5001).
      * @return the elements array
      */
@@ -115,7 +117,7 @@ public class ArrayRandomizer {
         // Random Variable
         Random rand = new Random();
 
-        // Add randomly generated distinct integers to HashSet 
+        // Add randomly generated distinct integers to HashSet
         while (numbers.size() < ELEMENTS_SIZE - 1) {
             int randomNum = rand.nextInt(MAX_VALUE + 1);
             numbers.add(randomNum);

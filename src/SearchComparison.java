@@ -1,7 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -19,11 +18,9 @@ public class SearchComparison {
 
     public static void main(String[] args) {
         try {
-            // Create a FileWriter to write the results to a csv file
-            FileWriter resultsLinear = new FileWriter("resultsLinear.csv");
-            FileWriter resultsBinary = new FileWriter("resultsBinary.csv");
+            // Create a FileWriter to write the results to a CSV file
+            FileWriter resultsBinary = new FileWriter("resultsBinary2.csv");
             FileWriter resultsHashTable = new FileWriter("resultsHashTable.csv");
-            resultsLinear.write("Size,Time\n");
             resultsBinary.write("Size,Time\n");
             resultsHashTable.write("Size,Time\n");
 
@@ -38,18 +35,12 @@ public class SearchComparison {
                 // Timer Start
                 long startTime = System.nanoTime();
 
-                // Sequential Search
-                sequentialSearch(searchArray, elementsArray);
-
-                // Timer end
-                long endTime = System.nanoTime();
-
                 // Binary Search
                 for (Integer element : elementsArray) {
                     binarySearch(searchArray, element);
                 }
 
-                long endTime2 = System.nanoTime();
+                long endTime = System.nanoTime();
 
                 // Hash Table Search
                 HashTable hashTable = createHashTable(searchArray);
@@ -57,15 +48,13 @@ public class SearchComparison {
                     hashTable.search(element);
                 }
 
-                long endTime3 = System.nanoTime();
+                long endTime2 = System.nanoTime();
 
                 // Calculate total time
-                long totalTimeLinear = endTime - startTime;
-                long totalTimeBinary = endTime2 - endTime;
-                long totalTimeHashTable = endTime3 - endTime2;
+                long totalTimeBinary = endTime - startTime;
+                long totalTimeHashTable = endTime2 - endTime;
 
                 // Writing results to file
-                resultsLinear.write(n + "," + totalTimeLinear + "\n");
                 resultsBinary.write(n + "," + totalTimeBinary + "\n");
                 resultsHashTable.write(n + "," + totalTimeHashTable + "\n");
 
@@ -76,7 +65,6 @@ public class SearchComparison {
             }
 
             // Closing the files
-            resultsLinear.close();
             resultsBinary.close();
             resultsHashTable.close();
 
@@ -136,25 +124,6 @@ public class SearchComparison {
         return elementsArray;
     }
 
-    // SEARCHING
-
-    /**
-     * Linear search implementation by iterating through each element of the search array and searching for elements from
-     * the elements array in the search array.
-     *
-     * @param searchArray   the array to be searched
-     * @param elementsArray the array containing elements to search in the search array
-     */
-    private static void sequentialSearch(ArrayList<Integer> searchArray, ArrayList<Integer> elementsArray) {
-        for (int element : elementsArray) {
-            for (int j = 0; j < searchArray.size(); j++) {
-                if (searchArray.get(j).equals(element)) {
-                    break;
-                }
-            }
-        }
-    }
-
     /**
      * Binary search implementation on the search array to search for elements from the elements array.
      *
@@ -203,99 +172,5 @@ public class SearchComparison {
         }
 
         return hashTable;
-    }
-
-    /**
-     * Searches for elements from the elements array in the provided hash table.
-     *
-     * @param elementsArray the array containing elements to search in the hash table
-     * @param hashTable     the hash table to be searched
-     */
-    private static void searchHashTable(ArrayList<Integer> elementsArray, HashTable hashTable) {
-        for (int element : elementsArray) {
-            hashTable.search(element);
-        }
-    }
-
-    // QUICK SORT. Source: D2L Code Sorting.java (By Dr. Jalal Kawash)
-
-    public static void quickSort(ArrayList<Integer> list) {
-        if (list.isEmpty()) return;
-        else recQuickSort(list, 0, list.size() - 1);
-    }
-
-    private static void recQuickSort(ArrayList<Integer> list, int low, int high) {
-        if (low < high) {
-            int pivot = partition(list, low, high);
-            recQuickSort(list, low, pivot - 1);
-            recQuickSort(list, pivot + 1, high);
-        }
-    }
-
-    private static int partition(ArrayList<Integer> list, int low, int high) {
-        Integer x = list.get(high);
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (list.get(j).compareTo(x) <= 0) {
-                i++;
-                if (i != j) {
-                    // Swap elements
-                    Collections.swap(list, i, j);
-                }
-            }
-        }
-        if (high != i + 1) Collections.swap(list, high, i + 1);
-        return i + 1;
-    }
-
-    /**
-     * Custom implementation of a hash table using chaining.
-     */
-    private static class HashTable {
-        private final int TABLE_SIZE = 9973;  // Prime number for the hash table size
-        private ArrayList<LinkedList<Integer>> table;
-
-        public HashTable() {
-            table = new ArrayList<>(TABLE_SIZE);
-            for (int i = 0; i < TABLE_SIZE; i++) {
-                table.add(new LinkedList<>());
-            }
-        }
-
-        /**
-         * Inserts an element into the hash table.
-         *
-         * @param element the element to be inserted
-         */
-        public void insert(int element) {
-            int hashValue = hash(element);
-            LinkedList<Integer> list = table.get(hashValue);
-            list.add(element);
-        }
-
-        /**
-         * Searches for an element in the hash table.
-         *
-         * @param element the element to be searched
-         * @return true if the element is found, false otherwise
-         */
-        public boolean search(int element) {
-            int hashValue = hash(element);
-            LinkedList<Integer> list = table.get(hashValue);
-            return list.contains(element);
-        }
-
-        /**
-         * Hash function to determine the index in the hash table for a given element.
-         *
-         * @param x the element to be hashed
-         * @return the hash value (index) in the hash table
-         */
-        private int hash(int x) {
-            x = ((x >>> 16) ^ x) * 0x45d9f3b; // >>> is unsigned right shift
-            x = ((x >>> 16) ^ x) * 0x45d9f3b;
-            x = (x >>> 16) ^ x;
-            return Math.abs(x) % TABLE_SIZE;
-        }
     }
 }

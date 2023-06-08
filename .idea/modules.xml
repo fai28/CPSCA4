@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CPSC331A4/CPSC331A4.iml" filepath="$PROJECT_DIR$/../CPSC331A4/CPSC331A4.iml" />
       <module fileurl="file://$PROJECT_DIR$/CPSCA4.iml" filepath="$PROJECT_DIR$/CPSCA4.iml" />
     </modules>
   </component>
